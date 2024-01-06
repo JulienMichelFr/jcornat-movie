@@ -4,10 +4,11 @@ import { patchState, signalStoreFeature, withComputed, withHooks, withMethods, w
 import { EntityId, removeAllEntities, setEntities, withEntities } from '@ngrx/signals/entities';
 import { EntityMap } from '@ngrx/signals/entities/src/models';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, of, pipe, switchMap, tap } from 'rxjs';
 
 import { SortEnum } from '../enums/sort/sort.enum';
 import { GroupMedium } from '../models/group-medium/group-medium.interface';
+import { ImportMedia } from '../models/import-media/import-media.interface';
 import { Medium } from '../models/medium/medium.interface';
 import { BaseMediumApiService } from '../services/base-api/base-medium-api.service';
 import { Rating } from '../types/rating.type';
@@ -67,13 +68,13 @@ export function withMedium<T extends Medium>(service: typeof BaseMediumApiServic
         updateSort(sort: SortEnum): void {
           patchState(store, { sort });
         },
-        load: rxMethod<string>(
+        load: rxMethod<void>(
           pipe(
             debounceTime(300),
             distinctUntilChanged(),
             tap(() => patchState(store, { isLoading: true })),
-            switchMap((search: string) =>
-              apiService.getAll(search).pipe(
+            switchMap(() =>
+              apiService.getAll().pipe(
                 tapResponse({
                   next: (movies) => {
                     patchState(store, setEntities(movies));
@@ -89,6 +90,13 @@ export function withMedium<T extends Medium>(service: typeof BaseMediumApiServic
             ),
           ),
         ),
+        searchMediaToImport(search: string): Observable<ImportMedia[]> {
+          if (!search?.length) {
+            return of([]);
+          }
+
+          return apiService.search(search);
+        },
       };
     }),
     withHooks({
@@ -96,7 +104,7 @@ export function withMedium<T extends Medium>(service: typeof BaseMediumApiServic
       onInit(store) {
         console.log(`store inited for ${service.name}`);
 
-        store.load(store.search());
+        store.load();
       },
     }),
   );
@@ -114,8 +122,9 @@ export interface MediumStore<T extends Medium = Medium> {
   entities: Signal<T[]>;
   entityMap: Signal<EntityMap<T>>;
   ids: Signal<EntityId[]>;
-  load(search: string): void;
+  load(): void;
   updateSort(sort: SortEnum): void;
+  searchMediaToImport(search: string): Observable<ImportMedia[]>;
 }
 
 function sortMedia(list: Medium[], sort: SortEnum): Medium[] {

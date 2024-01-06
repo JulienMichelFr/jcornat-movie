@@ -1,0 +1,45 @@
+<div class="mx-16 mt-16 max-w-936">
+  <div class="mb-16">
+    <button (click)="navigateBack()"><i class="icon icon-arrow-back pr-8"></i> Back</button>
+  </div>
+
+  <div class="bold text-xl mb-16">Search</div>
+
+  <div>
+    <div class="flex mb-24" style="align-items: end">
+      <div class="fill">
+        <div style="position: relative">
+          <input type="text" placeholder="Search" style="max-width: none" [formControl]="search" />
+          <i class="icon icon-search"></i>
+        </div>
+      </div>
+
+      <div class="ml-16">
+        <button (click)="navigateAdd()"><i class="icon icon-add pr-8"></i> Add manually</button>
+      </div>
+    </div>
+
+    <!--    @if (error) {
+      <div class="mb-8">
+        <div style="color: red">{{error}}</div>
+      </div>
+    }-->
+
+    @if (isLoading()) {
+      <div class="card mb-16" style="text-align: center">
+        <i class="icon icon-sync text-xl spin"></i>
+      </div>
+    }
+
+    @if (!isLoading() && results().length) {
+      <div class="bold text-lg mb-16">Results</div>
+      <div class="card">
+        @for (result of results(); track result) {
+          <div role="button" aria-disabled="true" class="row clickable p-12" style="cursor: pointer" (keydown)="select(result)" (click)="select(result)">
+            {{ result.title }} ({{ result.year }})
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

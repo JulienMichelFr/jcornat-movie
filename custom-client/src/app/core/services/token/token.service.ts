@@ -2,8 +2,8 @@ import { effect, inject, Injectable, Signal, signal, WritableSignal } from '@ang
 
 import { LocalStorageToken } from '../../injection-tokens/local-storage.token';
 
-const tokenKey = 'token' as const;
-const refreshTokenKey = 'refreshToken' as const;
+const tokenKey: 'token' = 'token' as const;
+const refreshTokenKey: 'refreshToken' = 'refreshToken' as const;
 
 export type TokenLocalStorageKey = typeof tokenKey | typeof refreshTokenKey;
 type Token = string | null;
@@ -12,21 +12,21 @@ type Token = string | null;
   providedIn: 'root',
 })
 export class TokenService {
-  readonly token: Signal<Token>;
-  readonly refreshToken: Signal<Token>;
+  public readonly token: Signal<Token>;
+  public readonly refreshToken: Signal<Token>;
   //#region Injection
   private readonly storageService: Storage = inject(LocalStorageToken);
   //#endregion
   private readonly _token: WritableSignal<Token>;
   private readonly _refreshToken: WritableSignal<Token>;
 
-  constructor() {
+  public constructor() {
     effect(() => {
-      const token = this._token();
+      const token: Token = this._token();
       this.store(tokenKey, token);
     });
     effect(() => {
-      const refreshToken = this._refreshToken();
+      const refreshToken: Token = this._refreshToken();
       this.store(refreshTokenKey, refreshToken);
     });
     this._token = signal(this.storageService.getItem(tokenKey));
