@@ -1,3 +1,3 @@
 import { InjectionToken } from '@angular/core';
 
-export const LocalStorageToken = new InjectionToken<Storage>('LocalStorage');
+export const LocalStorageToken: InjectionToken<Storage> = new InjectionToken<Storage>('LocalStorage');

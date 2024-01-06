@@ -32,6 +32,7 @@ export class MediaSearchPageComponent {
     throw new Error('Not implemented');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected select(result: ImportMedia): void {
     // TODO: Impl
     throw new Error('Not implemented');
