@@ -5,6 +5,8 @@ export const Route = {
   home: 'home',
   login: 'login',
   movies: 'movies',
+  tvShows: 'tv-shows',
+  games: 'games',
 } as const;
 
 export const routes: Routes = [
@@ -16,6 +18,14 @@ export const routes: Routes = [
   {
     path: Route.movies,
     loadChildren: () => import('./modules/movies/movie.routes').then((m) => m.movieRoutes),
+  },
+  {
+    path: Route.tvShows,
+    loadChildren: () => import('./modules/tv-shows/tv-show.routes').then((m) => m.tvShowRoutes),
+  },
+  {
+    path: Route.games,
+    loadChildren: () => import('./modules/games/game.routes').then((m) => m.gameRoutes),
   },
   { path: '**', pathMatch: 'full', redirectTo: Route.home },
 ];

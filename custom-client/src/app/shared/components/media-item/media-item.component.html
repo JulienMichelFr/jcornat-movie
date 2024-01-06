@@ -1,0 +1,20 @@
+<div class="media">
+  <div class="poster-container">
+    <div class="poster">
+      @if (media.url) {
+        <picture>
+          @if (media.urlWebp) {
+            <source type="image/webp" [srcset]="media.urlWebp" />
+          }
+
+          <img fill="true" [ngSrc]="media.url" [alt]="media.title" />
+        </picture>
+      }
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="mb-4 bold">{{ media.title }}</div>
+    <div class="opacity-5 text-sm">{{ media.year }}</div>
+  </div>
+</div>

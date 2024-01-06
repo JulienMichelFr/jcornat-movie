@@ -2,12 +2,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
+import { Config } from '../../config/config';
+import { ConfigInterface } from '../../config/config.interface';
 import { Medium } from '../../models/medium/medium.interface';
 
 @Injectable()
 export abstract class BaseMediumApiService<T extends Medium> {
   //#region Injection
   protected readonly http: HttpClient = inject(HttpClient);
+  protected readonly config: ConfigInterface = inject(Config);
   //#endregion
 
   public abstract readonly baseUrl: string;
@@ -25,8 +28,8 @@ export abstract class BaseMediumApiService<T extends Medium> {
   }
 
   protected process(value: T): T {
-    value.url = `upload/${value.id}.jpg`;
-    value.urlWebp = `upload/${value.id}.webp`;
+    value.url = `${this.config.uploadUrl}/${value.id}.jpg`;
+    value.urlWebp = `${this.config.uploadUrl}/${value.id}.webp`;
 
     return value;
   }

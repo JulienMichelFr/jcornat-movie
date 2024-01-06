@@ -2,20 +2,20 @@ import { Routes } from '@angular/router';
 
 import { StoreResolver } from '../../shared/resolvers/store/store.resolver';
 
-import { MovieStore } from './stores/movie/movie.store';
+import { GameStore } from './stores/game/game.store';
 
 // eslint-disable-next-line @typescript-eslint/typedef
-export const MovieRoute = {
+export const GamesRoute = {
   list: 'list',
 } as const;
 
-export const movieRoutes: Routes = [
+export const gameRoutes: Routes = [
   {
-    path: MovieRoute.list,
+    path: GamesRoute.list,
     loadComponent: () => import('../../shared/pages/media-list-page/media-list-page.component').then((m) => m.MediaListPageComponent),
     resolve: {
-      store: StoreResolver(MovieStore),
+      store: StoreResolver(GameStore),
     },
   },
-  { path: '**', pathMatch: 'full', redirectTo: MovieRoute.list },
+  { path: '**', pathMatch: 'full', redirectTo: GamesRoute.list },
 ];

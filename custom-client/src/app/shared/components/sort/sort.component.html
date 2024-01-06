@@ -1,0 +1,5 @@
+<select style="min-width: 200px" [ngModel]="sort" (ngModelChange)="sortChange.emit($event)">
+  @for (sort of sorts; track sort) {
+    <option [ngValue]="sort">{{ sort | sort }}</option>
+  }
+</select>

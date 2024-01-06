@@ -15,6 +15,10 @@
           "flat": false,
           "skipTests": true
         },
+        "@schematics/angular:pipe": {
+          "flat": false,
+          "skipTests": true
+        },
         "@schematics/angular:service": {
           "flat": false,
           "skipTests": true

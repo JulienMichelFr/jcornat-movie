@@ -1,0 +1,24 @@
+@if (groups.length) {
+  <app-sort [sort]="sort" (sortChange)="sortChange.emit($event)" />
+}
+
+@for (groupMedium of groups; track groupMedium.value) {
+  @if (groupMedium.media.length > 0) {
+    <div class="mx-16 flex" style="align-items: center">
+      <div class="bold text-xl mr-8">{{ groupMedium.value | rating }}</div>
+      <div class="fill"></div>
+    </div>
+
+    <div class="media-container" style="margin-bottom: 64px">
+      @for (media of groupMedium.media; track media.id) {
+        <!--        @if (i < groupMediaLimit[groupMedium.value]) {-->
+        <app-media-item [media]="media" />
+        <!--        }-->
+      }
+
+      <!--@if (groupMediaLimit[groupMedium.value] < groupMedium.media.length) {
+        <media-more [category]="groupMedium" [limit]="groupMediaLimit[groupMedium.value]" (click)="increaseLimit(groupMedium)"/>
+      }-->
+    </div>
+  }
+}
