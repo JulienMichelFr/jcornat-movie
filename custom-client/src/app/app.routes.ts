@@ -4,9 +4,7 @@ import { Routes } from '@angular/router';
 export const Route = {
   home: 'home',
   login: 'login',
-  movies: 'movies',
-  tvShows: 'tv-shows',
-  games: 'games',
+  media: 'media',
 } as const;
 
 export const routes: Routes = [
@@ -16,16 +14,9 @@ export const routes: Routes = [
     loadComponent: () => import('./core/pages/login/login.component').then((m) => m.LoginComponent),
   },
   {
-    path: Route.movies,
-    loadChildren: () => import('./modules/movies/movie.routes').then((m) => m.movieRoutes),
-  },
-  {
-    path: Route.tvShows,
-    loadChildren: () => import('./modules/tv-shows/tv-show.routes').then((m) => m.tvShowRoutes),
-  },
-  {
-    path: Route.games,
-    loadChildren: () => import('./modules/games/game.routes').then((m) => m.gameRoutes),
+    path: Route.media,
+    loadComponent: () => import('./shared/pages/media-page/media-page.component').then((m) => m.MediaPageComponent),
+    loadChildren: () => import('./modules/media.routes').then((m) => m.mediaRoutes),
   },
   { path: '**', pathMatch: 'full', redirectTo: Route.home },
 ];

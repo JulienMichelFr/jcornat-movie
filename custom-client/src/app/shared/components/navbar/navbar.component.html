@@ -1,5 +1,11 @@
 <div>
-  <a [routerLink]="['/', Route.movies]">Movies</a> |
-  <a [routerLink]="['/', Route.tvShows]">TV Shows</a> |
-  <a [routerLink]="['/', Route.games]">Games</a>
+  @for (type of types; track type; let last = $last) {
+    <a [routerLink]="['/', 'media', type]">{{ type | mediaType }}</a>
+    @if (isAuthenticated()) {
+        <a [routerLink]="['/', 'media', type, 'admin', 'search']"> + </a>
+    }
+    @if (!last) {
+      |
+    }
+  }
 </div>
